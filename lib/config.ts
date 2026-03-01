@@ -12,7 +12,6 @@ export interface AppConfig {
   maxCaptureBytes: number;
   readTokenTtlSeconds: number;
   cursorTokenTtlSeconds: number;
-  baseUrl?: string;
 }
 
 let cachedConfig: AppConfig | null = null;
@@ -86,7 +85,6 @@ export function getConfig(): AppConfig {
       DEFAULT_CURSOR_TOKEN_TTL_SECONDS,
       { min: 60 },
     ),
-    baseUrl: process.env.WEBHOOK_CATCHER_BASE_URL,
   };
 
   return cachedConfig;

@@ -50,12 +50,3 @@ export function parseLimit(
 
   return value;
 }
-
-export function buildAbsoluteUrl(
-  request: Request,
-  path: string,
-  configuredBaseUrl?: string,
-): string {
-  const base = configuredBaseUrl ? new URL(configuredBaseUrl) : new URL(request.url);
-  return new URL(path, base).toString();
-}

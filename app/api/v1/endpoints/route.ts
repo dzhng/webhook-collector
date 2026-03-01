@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getConfig } from "@/lib/config";
-import { buildAbsoluteUrl, jsonError } from "@/lib/http";
+import { jsonError } from "@/lib/http";
 import { generateEndpointId } from "@/lib/ids";
 import { createReadToken, deriveWriteSecret } from "@/lib/security";
 
@@ -20,11 +20,13 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     const ingestPath = `/api/ingest/${endpointId}/${writeSecret}`;
     const eventsPath = `/api/v1/endpoints/${endpointId}/events`;
+    const ingestUrl = new URL(ingestPath, request.url).toString();
+    const eventsUrl = new URL(eventsPath, request.url).toString();
 
     return NextResponse.json(
       {
-        ingestUrl: buildAbsoluteUrl(request, ingestPath, config.baseUrl),
-        eventsUrl: buildAbsoluteUrl(request, eventsPath, config.baseUrl),
+        ingestUrl,
+        eventsUrl,
         readToken,
       },
       {
