@@ -68,8 +68,6 @@ const SKILL_BLOCK = `# Webhook Collector — Skill Definition
 #      - Events retained up to 24 hours
 #
 # Base URL: ${BASE_URL}
-# Auth: No API key and no read token required.
-#
 # When to use this skill:
 #   - User needs to test a webhook integration
 #   - User wants to inspect what a service is sending

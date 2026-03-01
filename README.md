@@ -27,8 +27,6 @@ Capabilities:
   2. Ingest webhooks  — ANY /api/ingest/{id}/{writeSecret}
   3. Read events      — GET /api/v1/endpoints/{id}/events (no auth)
 
-Auth: No API key and no read token required.
-
 When to use:
   - Testing a webhook integration
   - Inspecting what a service is sending
