@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "test:integration": "node --test --test-concurrency=1 test/integration/*.test.mjs"
   },
   "dependencies": {
     "@vercel/queue": "^0.1.3",

@@ -2,7 +2,7 @@ import { NextResponse } from "next/server";
 import { getConfig } from "@/lib/config";
 import { jsonError } from "@/lib/http";
 import { generateEndpointId } from "@/lib/ids";
-import { createReadToken, deriveWriteSecret } from "@/lib/security";
+import { deriveWriteSecret } from "@/lib/security";
 
 export const runtime = "nodejs";
 
@@ -12,11 +12,6 @@ export async function POST(request: Request): Promise<NextResponse> {
 
     const endpointId = generateEndpointId();
     const writeSecret = deriveWriteSecret(endpointId, config.signingSecret);
-    const readToken = createReadToken(
-      endpointId,
-      config.signingSecret,
-      config.readTokenTtlSeconds,
-    );
 
     const ingestPath = `/api/ingest/${endpointId}/${writeSecret}`;
     const eventsPath = `/api/v1/endpoints/${endpointId}/events`;
@@ -27,7 +22,6 @@ export async function POST(request: Request): Promise<NextResponse> {
       {
         ingestUrl,
         eventsUrl,
-        readToken,
       },
       {
         headers: {

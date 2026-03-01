@@ -1,7 +1,6 @@
 const DEFAULT_QUEUE_REGION = "iad1";
 const DEFAULT_EVENT_RETENTION_SECONDS = 60 * 60 * 24;
 const DEFAULT_MAX_CAPTURE_BYTES = 64 * 1024;
-const DEFAULT_READ_TOKEN_TTL_SECONDS = 60 * 60 * 24 * 30;
 const DEFAULT_CURSOR_TOKEN_TTL_SECONDS = 60 * 60 * 24 * 7;
 
 export interface AppConfig {
@@ -10,7 +9,6 @@ export interface AppConfig {
   queueToken?: string;
   eventRetentionSeconds: number;
   maxCaptureBytes: number;
-  readTokenTtlSeconds: number;
   cursorTokenTtlSeconds: number;
 }
 
@@ -74,11 +72,6 @@ export function getConfig(): AppConfig {
       "WEBHOOK_CATCHER_MAX_CAPTURE_BYTES",
       DEFAULT_MAX_CAPTURE_BYTES,
       { min: 1024, max: 1024 * 1024 },
-    ),
-    readTokenTtlSeconds: parseInteger(
-      "WEBHOOK_CATCHER_READ_TOKEN_TTL_SECONDS",
-      DEFAULT_READ_TOKEN_TTL_SECONDS,
-      { min: 300 },
     ),
     cursorTokenTtlSeconds: parseInteger(
       "WEBHOOK_CATCHER_CURSOR_TOKEN_TTL_SECONDS",

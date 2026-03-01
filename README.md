@@ -10,7 +10,7 @@ Built for Vercel with `@vercel/queue` and Next.js route handlers.
 
 1. `POST /api/v1/endpoints` — creates a catch endpoint (no auth).
 2. Send webhooks to `/api/ingest/{endpointId}/{writeSecret}` — any HTTP method.
-3. Read captured events with `GET /api/v1/endpoints/{endpointId}/events` using a bearer token and cursor pagination.
+3. Read captured events with `GET /api/v1/endpoints/{endpointId}/events` and cursor pagination.
 
 ## For AI agents
 
@@ -25,10 +25,9 @@ Description: Create temporary webhook endpoints to capture and inspect
 Capabilities:
   1. Create endpoint  — POST /api/v1/endpoints (no auth)
   2. Ingest webhooks  — ANY /api/ingest/{id}/{writeSecret}
-  3. Read events      — GET /api/v1/endpoints/{id}/events (Bearer token)
+  3. Read events      — GET /api/v1/endpoints/{id}/events (no auth)
 
-Auth: Self-authenticating. Write secret is in the URL, read token is
-  returned on creation. No API key needed.
+Auth: No API key and no read token required.
 
 When to use:
   - Testing a webhook integration
@@ -53,6 +52,17 @@ npm install
 npm run dev
 ```
 
+## Run live integration tests
+
+These tests call the deployed service directly (default: `https://webhookcollector.dev`).
+
+```bash
+npm run test:integration
+```
+
+Optional:
+- Set `WEBHOOKCOLLECTOR_BASE_URL` to target a different deployment.
+
 ## API
 
 ### Create endpoint
@@ -63,7 +73,7 @@ npm run dev
 curl -s -X POST http://localhost:3000/api/v1/endpoints
 ```
 
-Returns `ingestUrl`, `eventsUrl`, `readToken`.
+Returns `ingestUrl`, `eventsUrl`.
 
 ### Ingest webhook
 
@@ -80,8 +90,7 @@ curl -s -X POST 'http://localhost:3000/api/ingest/ep_xxx/WRITE_SECRET' \
 `GET /api/v1/endpoints/{endpointId}/events?limit=10&cursor=...`
 
 ```bash
-curl -s 'http://localhost:3000/api/v1/endpoints/ep_xxx/events?limit=10' \
-  -H 'Authorization: Bearer READ_TOKEN'
+curl -s 'http://localhost:3000/api/v1/endpoints/ep_xxx/events?limit=10'
 ```
 
 Pass `nextCursor` from the response to paginate.

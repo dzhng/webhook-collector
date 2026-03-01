@@ -1,8 +1,8 @@
 import { createHmac, timingSafeEqual } from "node:crypto";
-import type { CursorTokenPayload, ReadTokenPayload } from "@/lib/types";
+import type { CursorTokenPayload } from "@/lib/types";
 
 interface GenericTokenPayload {
-  kind: "read" | "cursor";
+  kind: "cursor";
   endpointId: string;
   exp: number;
   consumerGroup?: string;
@@ -66,34 +66,6 @@ export function verifyToken<T extends GenericTokenPayload>(
   } catch {
     return null;
   }
-}
-
-export function createReadToken(
-  endpointId: string,
-  signingSecret: string,
-  ttlSeconds: number,
-): string {
-  return signToken(
-    {
-      kind: "read",
-      endpointId,
-      exp: Math.floor(Date.now() / 1000) + ttlSeconds,
-    },
-    signingSecret,
-  );
-}
-
-export function verifyReadToken(
-  token: string,
-  endpointId: string,
-  signingSecret: string,
-): ReadTokenPayload | null {
-  const payload = verifyToken<ReadTokenPayload>(token, signingSecret);
-  if (!payload || payload.kind !== "read" || payload.endpointId !== endpointId) {
-    return null;
-  }
-
-  return payload;
 }
 
 export function createCursorToken(

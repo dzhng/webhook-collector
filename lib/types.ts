@@ -20,13 +20,9 @@ export interface CapturedWebhookEvent {
 }
 
 interface BaseTokenPayload {
-  kind: "read" | "cursor";
+  kind: "cursor";
   endpointId: string;
   exp: number;
-}
-
-export interface ReadTokenPayload extends BaseTokenPayload {
-  kind: "read";
 }
 
 export interface CursorTokenPayload extends BaseTokenPayload {

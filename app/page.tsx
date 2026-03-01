@@ -6,14 +6,11 @@ const EXAMPLE_INGEST = `curl -s -X POST '${BASE_URL}/api/ingest/ep_xxx/WRITE_SEC
   -H 'Content-Type: application/json' \\
   -d '{"event":"order.created","data":{"id":42}}'`;
 
-const EXAMPLE_READ = `curl -s '${BASE_URL}/api/v1/endpoints/ep_xxx/events?limit=10' \\
-  -H 'Authorization: Bearer READ_TOKEN'`;
+const EXAMPLE_READ = `curl -s '${BASE_URL}/api/v1/endpoints/ep_xxx/events?limit=10'`;
 
-const EXAMPLE_READ_NEXT = `curl -s '${BASE_URL}/api/v1/endpoints/ep_xxx/events?limit=10&cursor=NEXT_CURSOR' \\
-  -H 'Authorization: Bearer READ_TOKEN'`;
+const EXAMPLE_READ_NEXT = `curl -s '${BASE_URL}/api/v1/endpoints/ep_xxx/events?limit=10&cursor=NEXT_CURSOR'`;
 
 const READ_ENDPOINT_SHAPE = `GET /api/v1/endpoints/{endpointId}/events?limit=1-10&cursor=optional
-Authorization: Bearer READ_TOKEN
 
 Response (200):
 {
@@ -61,18 +58,17 @@ const SKILL_BLOCK = `# Webhook Collector — Skill Definition
 # Capabilities:
 #   1. Create a new catch endpoint (POST /api/v1/endpoints)
 #      - No auth required
-#      - Returns: ingestUrl, eventsUrl, readToken
+#      - Returns: ingestUrl, eventsUrl
 #   2. Give the ingestUrl to whatever service you're integrating
 #      - Any HTTP method works (GET, POST, PUT, PATCH, DELETE)
 #      - Full request is captured: method, headers, body, query, IP
 #   3. Read captured events (GET /api/v1/endpoints/{id}/events)
-#      - Auth: Bearer <readToken>
+#      - No auth required
 #      - Cursor-based pagination via nextCursor
 #      - Events retained up to 24 hours
 #
 # Base URL: ${BASE_URL}
-# Auth: Endpoints are self-authenticating (write secret in URL,
-#   read token returned on creation). No API key needed.
+# Auth: No API key and no read token required.
 #
 # When to use this skill:
 #   - User needs to test a webhook integration
@@ -97,8 +93,7 @@ export default function Home() {
         <h2>Quick start</h2>
         <p>
           <strong>Step 1.</strong> Create a catch endpoint. No auth required.
-          You get back an <code>ingestUrl</code>, an <code>eventsUrl</code>,
-          and a <code>readToken</code>.
+          You get back an <code>ingestUrl</code> and an <code>eventsUrl</code>.
         </p>
         <pre>{EXAMPLE_CREATE}</pre>
       </section>
@@ -106,9 +101,8 @@ export default function Home() {
       <section>
         <h2>Send webhooks to it</h2>
         <p>
-          <strong>Step 2.</strong> Point your service at the{" "}
-          <code>ingestUrl</code>. Any HTTP method works. The full request is
-          captured — method, headers, body, query params, source IP.
+          <strong>Step 2.</strong> Point your service at the <code>ingestUrl</code>. Any HTTP method works. The full request is
+          captured - method, headers, body, query params, source IP.
         </p>
         <pre>{EXAMPLE_INGEST}</pre>
       </section>
@@ -116,8 +110,7 @@ export default function Home() {
       <section>
         <h2>Read what was caught</h2>
         <p>
-          <strong>Step 3.</strong> Fetch captured events with your{" "}
-          <code>readToken</code>. Paginate with <code>nextCursor</code>.
+          <strong>Step 3.</strong> Fetch captured events from <code>eventsUrl</code>. Paginate with <code>nextCursor</code>.
         </p>
         <pre>{EXAMPLE_READ}</pre>
         <p style={{ marginTop: "0.75rem" }}>
@@ -131,15 +124,12 @@ export default function Home() {
         <ul>
           <li>Events retained up to <strong>24 hours</strong> (queue-only, no DB)</li>
           <li>Max body capture: <strong>64 KB</strong> per request (configurable)</li>
-          <li>Read tokens valid for <strong>30 days</strong></li>
         </ul>
       </section>
 
       <section>
         <h2>Read Endpoint Shape</h2>
-        <p>
-          Exact response shape for event reads:
-        </p>
+        <p>Exact response shape for event reads:</p>
         <pre>{READ_ENDPOINT_SHAPE}</pre>
       </section>
 

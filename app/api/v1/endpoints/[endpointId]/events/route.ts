@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
 import { getConfig } from "@/lib/config";
-import { getBearerToken, jsonError, parseLimit } from "@/lib/http";
+import { jsonError, parseLimit } from "@/lib/http";
 import { generateConsumerGroupId } from "@/lib/ids";
 import { getQueueClient, getTopicName } from "@/lib/queue";
-import { createCursorToken, verifyCursorToken, verifyReadToken } from "@/lib/security";
+import { createCursorToken, verifyCursorToken } from "@/lib/security";
 import type { CapturedWebhookEvent } from "@/lib/types";
 import { isValidConsumerGroup, isValidEndpointId } from "@/lib/validation";
 
@@ -25,15 +25,6 @@ export async function GET(
 
     if (!isValidEndpointId(endpointId)) {
       return jsonError(400, "Invalid endpoint id");
-    }
-
-    const bearerToken = getBearerToken(request);
-    if (!bearerToken) {
-      return jsonError(401, "Missing bearer token");
-    }
-
-    if (!verifyReadToken(bearerToken, endpointId, config.signingSecret)) {
-      return jsonError(403, "Invalid token for this endpoint");
     }
 
     const url = new URL(request.url);

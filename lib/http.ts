@@ -19,20 +19,6 @@ export function jsonError(
   );
 }
 
-export function getBearerToken(request: Request): string | null {
-  const authHeader = request.headers.get("authorization");
-  if (!authHeader) {
-    return null;
-  }
-
-  const [scheme, token] = authHeader.split(" ");
-  if (scheme?.toLowerCase() !== "bearer" || !token) {
-    return null;
-  }
-
-  return token;
-}
-
 export function parseLimit(
   rawLimit: string | null,
   defaultLimit: number,
