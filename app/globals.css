@@ -74,6 +74,17 @@ pre {
   line-height: 1.5;
 }
 
+ul {
+  margin: 0.5rem 0 0;
+  padding-left: 1.25rem;
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+li {
+  margin-bottom: 0.25rem;
+}
+
 @media (max-width: 700px) {
   .docs-root {
     margin: 1rem auto;
