@@ -86,6 +86,9 @@ export default function Home() {
         No database. No account. Just queues. Events are retained for up to 24
         hours.
       </p>
+      <p>
+        Sponsored by <a href="https://duet.so">duet.so</a>.
+      </p>
 
       <section>
       <h2>Quick start</h2>

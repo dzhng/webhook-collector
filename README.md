@@ -2,6 +2,8 @@
 
 Catch, inspect, and debug webhooks. Create a temporary endpoint, point your service at it, read back everything that was sent.
 
+Sponsored by [duet.so](https://duet.so).
+
 No database. No account. Just queues. Events retained up to 24 hours.
 
 Built for Vercel with `@vercel/queue` and Next.js route handlers.
