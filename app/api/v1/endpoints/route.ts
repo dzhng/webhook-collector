@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import { getConfig } from "@/lib/config";
-import { getBearerToken, buildAbsoluteUrl, jsonError } from "@/lib/http";
+import { buildAbsoluteUrl, jsonError } from "@/lib/http";
 import { generateEndpointId } from "@/lib/ids";
 import { createReadToken, deriveWriteSecret } from "@/lib/security";
 
@@ -9,11 +9,6 @@ export const runtime = "nodejs";
 export async function POST(request: Request): Promise<NextResponse> {
   try {
     const config = getConfig();
-    const bearerToken = getBearerToken(request);
-
-    if (!bearerToken || bearerToken !== config.apiKey) {
-      return jsonError(401, "Unauthorized");
-    }
 
     const endpointId = generateEndpointId();
     const writeSecret = deriveWriteSecret(endpointId, config.signingSecret);

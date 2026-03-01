@@ -25,7 +25,6 @@ Event history is limited by Vercel queue retention (`<= 24h`).
 
 Copy `.env.example` to `.env.local` and set required values:
 
-- `WEBHOOK_CATCHER_API_KEY`
 - `WEBHOOK_CATCHER_SIGNING_SECRET`
 - `WEBHOOK_CATCHER_QUEUE_REGION`
 
@@ -46,14 +45,12 @@ Landing docs: `http://localhost:3000`
 
 `POST /api/v1/endpoints`
 
-Headers:
-- `Authorization: Bearer <WEBHOOK_CATCHER_API_KEY>`
+This endpoint is public. No auth header is required.
 
 Example:
 
 ```bash
-curl -s -X POST http://localhost:3000/api/v1/endpoints \
-  -H 'Authorization: Bearer YOUR_API_KEY'
+curl -s -X POST http://localhost:3000/api/v1/endpoints
 ```
 
 Response fields:
@@ -79,7 +76,7 @@ curl -s -X POST 'https://your-app.vercel.app/api/ingest/ep_xxx/WRITE_SECRET' \
 
 Headers:
 - `Authorization: Bearer <readToken>`
-  - You can also use the admin API key.
+  - Optional: if `WEBHOOK_CATCHER_API_KEY` is set, that key also works.
 
 First page (no cursor):
 

@@ -32,7 +32,7 @@ export async function GET(
       return jsonError(401, "Missing bearer token");
     }
 
-    const hasAdminAccess = bearerToken === config.apiKey;
+    const hasAdminAccess = Boolean(config.apiKey && bearerToken === config.apiKey);
     if (!hasAdminAccess && !verifyReadToken(bearerToken, endpointId, config.signingSecret)) {
       return jsonError(403, "Invalid token for this endpoint");
     }

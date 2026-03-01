@@ -1,5 +1,4 @@
-const EXAMPLE_CREATE = `curl -s -X POST http://localhost:3000/api/v1/endpoints \\
-  -H 'Authorization: Bearer YOUR_API_KEY'`;
+const EXAMPLE_CREATE = `curl -s -X POST http://localhost:3000/api/v1/endpoints`;
 
 const EXAMPLE_INGEST = `curl -s -X POST 'https://your-app.vercel.app/api/ingest/ep_xxx/WRITE_SECRET' \\
   -H 'Content-Type: application/json' \\
@@ -22,6 +21,9 @@ export default function Home() {
 
       <section>
         <h2>1) Create endpoint</h2>
+        <p>
+          Public endpoint. No auth required.
+        </p>
         <p>
           Returns only what you need right away: <code>ingestUrl</code>,{" "}
           <code>eventsUrl</code>, and <code>readToken</code>.

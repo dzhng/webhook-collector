@@ -5,7 +5,7 @@ const DEFAULT_READ_TOKEN_TTL_SECONDS = 60 * 60 * 24 * 30;
 const DEFAULT_CURSOR_TOKEN_TTL_SECONDS = 60 * 60 * 24 * 7;
 
 export interface AppConfig {
-  apiKey: string;
+  apiKey?: string;
   signingSecret: string;
   queueRegion: string;
   queueToken?: string;
@@ -58,11 +58,10 @@ export function getConfig(): AppConfig {
     return cachedConfig;
   }
 
-  const apiKey = requireValue("WEBHOOK_CATCHER_API_KEY");
   const signingSecret = requireValue("WEBHOOK_CATCHER_SIGNING_SECRET");
 
   cachedConfig = {
-    apiKey,
+    apiKey: process.env.WEBHOOK_CATCHER_API_KEY,
     signingSecret,
     queueRegion:
       process.env.WEBHOOK_CATCHER_QUEUE_REGION ??
